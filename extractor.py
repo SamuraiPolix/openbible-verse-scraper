@@ -10,7 +10,7 @@ verse_approve = []
 ref_approve = []
 
 def extract(tag):
-    print(f"Scraping {tag} from OpenBible.info!")
+    print(f"Scraping \"{tag}\" from OpenBible.info ...")
     # Define URL to fetch data from
     url = f"https://www.openbible.info/topics/{tag}/"
     # Fetch the HTML content from the URL
@@ -44,6 +44,7 @@ def extract(tag):
     with open(f'{tag}_data.json', 'r', encoding='utf-8') as data_file:
         data_loaded = json.load(data_file)
 
-    print(verse_approve == data_loaded['verses'])
-    print(ref_approve == data_loaded['references'])
-    return outfile.name
+    # for debugging:
+    # print(verse_approve == data_loaded['verses'])
+    # print(ref_approve == data_loaded['references'])
+    return outfile.name, len(verse_approve)
