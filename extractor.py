@@ -9,11 +9,10 @@ from lxml.html.clean import unicode
 verse_approve = []
 ref_approve = []
 
-# Loop twice to fetch data from the website
-for i in range(2):
-    print(i)
+def extract(tag):
+    print(f"Scraping {tag} from OpenBible.info!")
     # Define URL to fetch data from
-    url = "https://www.openbible.info/topics/motivation/"
+    url = f"https://www.openbible.info/topics/{tag}/"
     # Fetch the HTML content from the URL
     response = requests.get(url)
     html_str = response.text
@@ -31,19 +30,20 @@ for i in range(2):
     div_elements = tree.xpath("//div[@class='verse']//h3//a[@class='bibleref']//text()")
     ref_approve = div_elements
 
-# Write extracted data to a JSON file
-try:
-    to_unicode = unicode
-except NameError:
-    to_unicode = str
+    # Write extracted data to a JSON file
+    try:
+        to_unicode = unicode
+    except NameError:
+        to_unicode = str
 
-with io.open('verse_data.json', 'w', encoding='utf8') as outfile:
-    str_ = json.dumps({'verses': verse_approve, 'references': ref_approve}, ensure_ascii=False)
-    outfile.write(to_unicode(str_))
+    with io.open(f'{tag}_data.json', 'w', encoding='utf8') as outfile:
+        str_ = json.dumps({'verses': verse_approve, 'references': ref_approve}, ensure_ascii=False)
+        outfile.write(to_unicode(str_))
 
-# Read data from JSON file and compare with original data
-with open('verse_data.json', 'r', encoding='utf-8') as data_file:
-    data_loaded = json.load(data_file)
+    # Read data from JSON file and compare with original data
+    with open(f'{tag}_data.json', 'r', encoding='utf-8') as data_file:
+        data_loaded = json.load(data_file)
 
-print(verse_approve == data_loaded['verses'])
-print(ref_approve == data_loaded['references'])
+    print(verse_approve == data_loaded['verses'])
+    print(ref_approve == data_loaded['references'])
+    return outfile.name
