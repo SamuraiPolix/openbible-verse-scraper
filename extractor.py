@@ -37,7 +37,7 @@ def extract(tag):
         to_unicode = str
 
     with io.open(f'{tag}_data.json', 'w', encoding='utf8') as outfile:
-        str_ = json.dumps({'verses': verse_approve, 'references': ref_approve}, ensure_ascii=False)
+        str_ = json.dumps({'verses': verse_approve, 'references': ref_approve}, ensure_ascii=False, indent=4)
         outfile.write(to_unicode(str_))
 
     # Read data from JSON file and compare with original data

@@ -18,6 +18,6 @@ def merge_json_files(files):
 
     # Create combined file
     with io.open(f'merged_data.json', 'w', encoding='utf8') as outfile:
-        str_ = json.dumps(combined_data, ensure_ascii=False)
+        str_ = json.dumps(combined_data, ensure_ascii=False, indent=4)
         outfile.write(str_)
     return outfile.name
