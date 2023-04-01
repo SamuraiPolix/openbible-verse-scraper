@@ -10,8 +10,8 @@ def merge_json_files(files):
     for file in files:
         with open(file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            all_verses.update(data['verses'])
-            all_references.update(data['references'])
+        all_verses.update(data['verses'])
+        all_references.update(data['references'])
 
     # Combine the verses and references into a single dictionary
     combined_data = {'verses': list(set(all_verses)), 'references': list(set(all_references))}
