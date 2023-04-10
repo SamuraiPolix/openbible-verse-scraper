@@ -11,12 +11,12 @@ def merge_json_files(files):
     for file in files:
         with open(file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        len_before = len(all_verses)
         verses_data = data['verses']
         refs_data = data['references']
         for i in range(len(verses_data)-1, -1, -1):
             if i == 0:
                 print()
+            len_before = len(all_verses)
             all_verses.add(verses_data[i])
             len_now = len(all_verses)
             if len_before != len_now:
