@@ -1,6 +1,21 @@
-# OPENBIBLE.INFO Verse Scraper
-This script scrapes the verses and references from an openbible.info page into a json file
+<img src="https://forthebadge.com/images/badges/made-with-python.svg"/> <img src="https://forthebadge.com/images/badges/built-with-love.svg"/> 
+<a href = "https://www.paypal.com/donate/?hosted_button_id=5JK8CUWFUU9B6">![donate-paypal](https://user-images.githubusercontent.com/52662032/229529989-ea722887-5d3a-425e-ad9c-40d8a4d0fb22.svg)</a>
 
-All you need to do is open the main file, set the tags you want and run the script
+# OPENBIBLE.INFO Website Verse Scraper
 
-The final file is either "{tag}_data.json" (if you put only one tag), or "merged_data.json" (if you put more tags)
+This script scrapes the verses and references from an openbible.info/topics/{} page into a json file
+
+
+<h2>How to run:</h3>
+
+- Open main.py
+- set your tags (choose biblical topics to get verses of)
+```python
+tags = ['love', 'joy', 'kindness']
+```
+- RUN!
+
+<h2>Result:</h2>
+The output file is "data.json"
+
+<h3>Enjoy!</h3>
