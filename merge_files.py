@@ -2,7 +2,7 @@ import io
 import json
 
 def merge_json_files(files):
-    dupliactes = 0
+    duplicates = 0
     # Initialize empty sets for the verses and references
     all_verses = set()
     all_references = set()
@@ -25,14 +25,14 @@ def merge_json_files(files):
                 len_now = len(all_references)
                 if len_before == len_now:
                     all_verses.remove(verses_data[i])
-                    dupliactes += 1
+                    duplicates += 1
             else:
-                dupliactes += 1
+                duplicates += 1
 
     # Combine the verses and references into a single dictionary
     combined_data = {'verses': list(set(all_verses)), 'references': list(set(all_references))}
 
-    print(f"There were {dupliactes} duplicated verses.")
+    print(f"There were {duplicates} duplicated verses.")
 
     # Create combined file
     with io.open(f'merged_data.json', 'w', encoding='utf8') as outfile:
