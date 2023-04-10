@@ -5,11 +5,12 @@ import json
 import io
 from lxml.html.clean import unicode
 
-# Define empty lists to store extracted data
-verse_approve = []
-ref_approve = []
+def extract(tag, chars_limit):
+    # Define empty lists to store extracted data
+    verse_approve = list()
+    ref_approve = list()
 
-def extract(tag):
+    count_skipped = 0       # Skipped verses because of chars_limit
     print(f"Scraping \"{tag}\" from OpenBible.info ...")
     # Define URL to fetch data from
     url = f"https://www.openbible.info/topics/{tag}/"
@@ -30,6 +31,14 @@ def extract(tag):
     div_elements = tree.xpath("//div[@class='verse']//h3//a[@class='bibleref']//text()")
     ref_approve = div_elements
 
+    # Remove verses that are too long (if limit is not -1)
+    if chars_limit != -1:
+        for i in range(len(verse_approve)-1, -1, -1):
+            if len(verse_approve[i]) > chars_limit:
+                count_skipped += 1
+                del verse_approve[i]
+                del ref_approve[i]
+
     # Write extracted data to a JSON file
     try:
         to_unicode = unicode
@@ -47,4 +56,6 @@ def extract(tag):
     # for debugging:
     # print(verse_approve == data_loaded['verses'])
     # print(ref_approve == data_loaded['references'])
+    if chars_limit != -1:
+        print(f"skipped {count_skipped} verses who exceeded {chars_limit} chars.")
     return outfile.name, len(verse_approve)
