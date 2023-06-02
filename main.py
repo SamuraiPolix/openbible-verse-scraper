@@ -6,8 +6,12 @@ import merge_files
 # Set to -1 to disable limit
 CHARS_LIMIT = 175
 
-tags = ['love']
-# tags = ['motivation', 'love', 'joy', 'peace', 'kindness', 'goodness', 'faith']
+# tags = ['patience']
+tags = ['faith', 'strength', 'healing', 'trust', 'love', 'heal', 'motivation', 'hope']
+tags = ['joy', 'happiness', 'trust', 'love', 'hope', 'jesus', 'repentance', 'faith', 'motivation']
+# tags = ['foster_care', 'adoption', 'children', 'family_forgiveness', 'caring', 'forgiveness', 'parenting', 'family', 'love', 'goodness', 'helping']
+# tags = ['motivation', 'love', 'inspiration', 'joy', 'peace', 'kindness', 'goodness', 'faith', 'spiritual_growth', 'courage']
+# tags = ['motivation', 'love', 'inspiration', 'joy', 'peace', 'kindness', 'goodness', 'faith', 'spiritual_growth', 'courage', 'patience']
 
 if __name__ == "__main__":
     count_verses = 0;
