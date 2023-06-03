@@ -59,3 +59,37 @@ def extract(tag, chars_limit):
     if chars_limit != -1:
         print(f"skipped {count_skipped} verses who exceeded {chars_limit} chars.")
     return outfile.name, len(verse_approve)
+
+
+def extract_other_translation(file, translation):
+    all_verses = list()
+    # all_references = list()
+
+    with open(file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    # verses_data = data['verses']
+    refs_data = data['references']
+    for i in range(len(refs_data)):
+        all_verses.append(get_bible_text(refs_data[i], translation).replace("\n", " ").strip())
+
+    # Combine the verses and references into a single dictionary
+    combined_data = {'verses': list(all_verses), 'references': list(refs_data)}
+
+    # Create combined file
+    with io.open(f'merged_data_{translation}.json', 'w', encoding='utf8') as outfile:
+        str_ = json.dumps(combined_data, ensure_ascii=False, indent=4)
+        outfile.write(str_)
+    return outfile.name, len(all_verses)
+
+
+def get_bible_text(verse, translation):
+    base_url = 'https://bible-api.com/'
+    url = base_url + verse + '?translation=' + translation
+
+    response = requests.get(url)
+    data = response.json()
+
+    if 'text' in data:
+        return data['text']
+    else:
+        return 'Error: Unable to fetch Bible text.'

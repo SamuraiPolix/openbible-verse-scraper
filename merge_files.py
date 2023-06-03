@@ -16,9 +16,6 @@ def merge_json_files(files):
         verses_data = data['verses']
         refs_data = data['references']
         for i in range(len(verses_data)):
-            if i == 0:
-                print()
-
             # Make sure they don't exist
             for ref in all_references:
                 if refs_data[i] == ref:
