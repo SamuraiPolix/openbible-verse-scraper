@@ -2,7 +2,7 @@ import array
 import io
 import json
 
-def merge_json_files(files):
+def merge_json_files(files, output_name):
     duplicates = 0
     # Initialize empty lists for the verses and references
     all_verses = list()
@@ -51,7 +51,7 @@ def merge_json_files(files):
     print(f"There were {duplicates} duplicated verses.")
 
     # Create combined file
-    with io.open(f'merged_data.json', 'w', encoding='utf8') as outfile:
+    with io.open(f'{output_name}_data.json', 'w', encoding='utf8') as outfile:
         str_ = json.dumps(combined_data, ensure_ascii=False, indent=4)
         outfile.write(str_)
     return outfile.name, len(all_verses)

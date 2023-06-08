@@ -1,16 +1,19 @@
 # Import necessary libraries
+import time
+import random
 import requests
 from lxml import html
 import json
 import io
 from lxml.html.clean import unicode
 
+
 def extract(tag, chars_limit):
     # Define empty lists to store extracted data
     verse_approve = list()
     ref_approve = list()
 
-    count_skipped = 0       # Skipped verses because of chars_limit
+    count_skipped = 0  # Skipped verses because of chars_limit
     print(f"Scraping \"{tag}\" from OpenBible.info ...")
     # Define URL to fetch data from
     url = f"https://www.openbible.info/topics/{tag}/"
@@ -33,7 +36,7 @@ def extract(tag, chars_limit):
 
     # Remove verses that are too long (if limit is not -1)
     if chars_limit != -1:
-        for i in range(len(verse_approve)-1, -1, -1):
+        for i in range(len(verse_approve) - 1, -1, -1):
             if len(verse_approve[i]) > chars_limit:
                 count_skipped += 1
                 del verse_approve[i]
@@ -61,7 +64,7 @@ def extract(tag, chars_limit):
     return outfile.name, len(verse_approve)
 
 
-def extract_other_translation(file, translation):
+def extract_other_translation(file: str, translation):
     all_verses = list()
     # all_references = list()
 
@@ -70,13 +73,17 @@ def extract_other_translation(file, translation):
     # verses_data = data['verses']
     refs_data = data['references']
     for i in range(len(refs_data)):
+        # time.sleep(random.randint(5, 9))
+        if i % 14 == 0:
+            time.sleep(7)
+        print(i)
         all_verses.append(get_bible_text(refs_data[i], translation).replace("\n", " ").strip())
 
     # Combine the verses and references into a single dictionary
     combined_data = {'verses': list(all_verses), 'references': list(refs_data)}
-
+    file_name = file.strip(".json")
     # Create combined file
-    with io.open(f'merged_data_{translation}.json', 'w', encoding='utf8') as outfile:
+    with io.open(f'{file}_{translation}.json', 'w', encoding='utf8') as outfile:
         str_ = json.dumps(combined_data, ensure_ascii=False, indent=4)
         outfile.write(str_)
     return outfile.name, len(all_verses)
@@ -87,9 +94,16 @@ def get_bible_text(verse, translation):
     url = base_url + verse + '?translation=' + translation
 
     response = requests.get(url)
-    data = response.json()
+    try:
+        data = response.json()
+    except:
+        print("SLEEP 20")
+        time.sleep(20)
+        return get_bible_text(verse, translation)
 
-    if 'text' in data:
-        return data['text']
-    else:
-        return 'Error: Unable to fetch Bible text.'
+    return data['text']
+    # else:
+    #     time.sleep(10)
+    #     print("SLEEP 10")
+    #     return get_bible_text(verse, translation)
+    #     # return 'Error: Unable to fetch Bible text.'
