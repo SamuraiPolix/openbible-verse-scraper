@@ -48,9 +48,6 @@ KEEP_INDIVIDUAL_FILES = "False"     # Do you want to have separate files for eac
 ```
 - RUN!
 
-<h3>Using Terminal (CMD):</h3>
-
-
 <h2>Result:</h2>
 
 ```yaml
