@@ -37,13 +37,66 @@ This script scrapes the verses and references from an openbible.info/topics/{} p
 tags = ['love', 'joy', 'kindness']
 ```
 
+- set these:
+
+```python
+FILE_NAME = "filename"
+CHARS_LIMIT = -1                    # limit length of verses generated, -1 disables the limit.
+MAX_VERSES_PER_TOPIC = -1           # limit number of verses generated per topic, -1 disables the limit.
+TRANSLATION = "ESV"                 # ESV is the default (openbible.info).
+KEEP_INDIVIDUAL_FILES = "False"     # Do you want to have separate files for each topic? (you will always have a merged file as well)
+```
 - RUN!
 
 <h3>Using Terminal (CMD):</h3>
 
 
 <h2>Result:</h2>
-The output file is "data.json"
+
+```yaml
+[
+    {
+        "topic": "Motivation",
+        "reference": "Colossians 3:23",
+        "verse": "Whatever you do, work heartily, as for the Lord and not for men,"
+    },
+    {
+        "topic": "Love",
+        "reference": "1 Corinthians 16:14",
+        "verse": "Let all that you do be done in love."
+    },
+    {
+        "topic": "Joy",
+        "reference": "Romans 15:13",
+        "verse": "May the God of hope fill you with all joy and peace in believing, so that by the power of the Holy Spirit you may abound in hope."
+    },
+    {
+        "topic": "Kindness",
+        "reference": "Ephesians 4:32",
+        "verse": "Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you."
+    },
+    {
+        "topic": "Faith",
+        "reference": "Matthew 21:22",
+        "verse": "And whatever you ask in prayer, you will receive, if you have faith.”"
+    },
+    {
+        "topic": "Goodness",
+        "reference": "Psalm 23:6",
+        "verse": "Surely goodness and mercy shall follow me all the days of my life, and I shall dwell in the house of the Lord forever."
+    },
+    {
+        "topic": "Patience",
+        "reference": "Romans 12:12",
+        "verse": "Rejoice in hope, be patient in tribulation, be constant in prayer."
+    },
+    {
+        "topic": "Peace",
+        "reference": "John 16:33",
+        "verse": "I have said these things to you, that in me you may have peace. In the world you will have tribulation. But take heart; I have overcome the world.”"
+    }
+]
+```
 
 <h3>Enjoy!</h3>
 
@@ -52,3 +105,4 @@ The output file is "data.json"
 
 * Web scraping
 * API
+* JSON
