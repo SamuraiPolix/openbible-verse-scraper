@@ -3,12 +3,28 @@
 
 # OPENBIBLE.INFO Website Verse Scraper
 
-This script scrapes the verses and references from an openbible.info/topics/{} page into a JSON file, if another bible translation is needed, we are using bible-api.com to translate the verses.
+This script scrapes the verses and references from an openbible.info/topics/{} page into a JSON file, if another bible translation is needed, we use bible-api.com to translate the verses.
   
 <h3>Bible versions available:</h3>
 
-* ESV
-* KJV
+## Translation List
+
+| Language        | Name                                             | bible-api.com Identifier    |
+|-----------------|--------------------------------------------------|-----------------------------|
+| English  	      | English Standart Translation	                   | (default on openbible.info) |
+| Cherokee	      | Cherokee New Testament	                         | cherokee                    |
+| English	        | Bible in Basic English	                         | bbe                         |
+| English	        | King James Version	                             | kjv                         |
+| English	        | World English Bible	                             | web                         |
+| English (UK)    |	Open English Bible, Commonwealth Edition         | oeb-cw                      |
+| English (UK)    |	World English Bible, British Edition             | webbe                       |
+| English (US)    |	Open English Bible, US Edition                   | oeb-us                      |
+| Latin	          | Clementine Latin Vulgate                         | clementine                  |
+| Portuguese      |	João Ferreira de Almeida                         | almeida                     |
+| Romanian	      | Protestant Romanian Corrected Cornilescu Version | rccv                        |
+
+*This table was taken from bible-api.com - please head to their website for the updated list.
+
 
 <h2>How to run:</h2>
 <h3>Using an IDE:</h3>
