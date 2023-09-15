@@ -1,4 +1,4 @@
-<img src="https://forthebadge.com/images/badges/made-with-python.svg"/> <img src="https://forthebadge.com/images/badges/built-with-love.svg"/> 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 <a href = "https://www.paypal.com/donate/?hosted_button_id=5JK8CUWFUU9B6">![donate-paypal](https://user-images.githubusercontent.com/52662032/229529989-ea722887-5d3a-425e-ad9c-40d8a4d0fb22.svg)</a>
 
 # OPENBIBLE.INFO Website Verse Scraper
