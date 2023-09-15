@@ -8,10 +8,10 @@ import io
 from lxml.html.clean import unicode
 
 
-def extract(tag, chars_limit):
+def extract(tag, chars_limit, max_verses, output_folder):
     # Define empty lists to store extracted data
-    verse_approve = list()
-    ref_approve = list()
+    verses_list = list()
+    refs_list = list()
 
     count_skipped = 0  # Skipped verses because of chars_limit
     print(f"Scraping \"{tag}\" from OpenBible.info ...")
@@ -28,19 +28,32 @@ def extract(tag, chars_limit):
     div_elements = tree.xpath("//div[@class='verse']")
     for div_element in div_elements:
         p_text = ''.join(div_element.xpath('.//p//text()')).replace('\t', '').replace('\n', '')
-        verse_approve.append(p_text)
+        verses_list.append(p_text)
 
     # Extract bible reference - text content of <a> elements under <h3> elements under <div> elements with class 'verse'
     div_elements = tree.xpath("//div[@class='verse']//h3//a[@class='bibleref']//text()")
-    ref_approve = div_elements
+    refs_list = div_elements
 
     # Remove verses that are too long (if limit is not -1)
     if chars_limit != -1:
-        for i in range(len(verse_approve) - 1, -1, -1):
-            if len(verse_approve[i]) > chars_limit:
+        for i in range(len(verses_list) - 1, -1, -1):
+            if len(verses_list[i]) > chars_limit:
                 count_skipped += 1
-                del verse_approve[i]
-                del ref_approve[i]
+                del verses_list[i]
+                del refs_list[i]
+    # Remove the verses at the end to stay in the given range
+    if max_verses != -1 and len(verses_list) > max_verses:
+        for i in range(len(verses_list) - 1, max_verses - 1, -1):
+            del verses_list[i]
+            del refs_list[i]
+
+    json_array = []
+    for i in range(0, len(verses_list)):
+        verse_dict = dict()
+        verse_dict["topic"] = tag.capitalize()
+        verse_dict["reference"] = refs_list[i]
+        verse_dict["verse"] = verses_list[i]
+        json_array.append(verse_dict)
 
     # Write extracted data to a JSON file
     try:
@@ -48,45 +61,47 @@ def extract(tag, chars_limit):
     except NameError:
         to_unicode = str
 
-    with io.open(f'{tag}_data.json', 'w', encoding='utf8') as outfile:
-        str_ = json.dumps({'verses': verse_approve, 'references': ref_approve}, ensure_ascii=False, indent=4)
+    with io.open(f'{output_folder}/{tag}_data.json', 'w', encoding='utf8') as outfile:
+        str_ = json.dumps(json_array, ensure_ascii=False, indent=4)
         outfile.write(to_unicode(str_))
 
-    # Read data from JSON file and compare with original data
-    with open(f'{tag}_data.json', 'r', encoding='utf-8') as data_file:
-        data_loaded = json.load(data_file)
 
     # for debugging:
     # print(verse_approve == data_loaded['verses'])
     # print(ref_approve == data_loaded['references'])
-    if chars_limit != -1:
-        print(f"skipped {count_skipped} verses who exceeded {chars_limit} chars.")
-    return outfile.name, len(verse_approve)
+    if chars_limit != -1 and max_verses == -1:
+        print(f"skipped {count_skipped} verses that exceeded {chars_limit} chars.")
+    elif max_verses != -1:
+        print(f"generated {len(verses_list)} verses.")
+    return outfile.name, len(verses_list)
 
 
-def extract_other_translation(file: str, translation):
-    all_verses = list()
-    # all_references = list()
+def extract_other_translation(file: str, translation, chars_limit, output_folder):
+    all_data = []
 
     with open(file, 'r', encoding='utf-8') as f:
         data = json.load(f)
-    # verses_data = data['verses']
-    refs_data = data['references']
-    for i in range(len(refs_data)):
-        # time.sleep(random.randint(5, 9))
-        if i % 14 == 0:
-            time.sleep(7)
-        print(i)
-        all_verses.append(get_bible_text(refs_data[i], translation).replace("\n", " ").strip())
+    count_exceeded = 0
 
-    # Combine the verses and references into a single dictionary
-    combined_data = {'verses': list(all_verses), 'references': list(refs_data)}
+    for i in range(0, len(data)):
+        # time.sleep(random.randint(5, 9))
+        if i != 0 and i % 14 == 0:
+            time.sleep(30)
+        print(i)
+        translated_verse: str = get_bible_text(data[i]['reference'], translation).replace("\n", " ").strip()
+        if len(translated_verse) > chars_limit:
+            count_exceeded += 1
+        else:
+            all_data.append(data[i])
+            all_data[len(all_data)-1]['verse'] = translated_verse
+
     file_name = file.strip(".json")
+    print(count_exceeded)
     # Create combined file
-    with io.open(f'{file}_{translation}.json', 'w', encoding='utf8') as outfile:
-        str_ = json.dumps(combined_data, ensure_ascii=False, indent=4)
+    with io.open(f'{file.strip(".json")}_{translation}.json', 'w', encoding='utf-8') as outfile:
+        str_ = json.dumps(all_data, ensure_ascii=False, indent=4)
         outfile.write(str_)
-    return outfile.name, len(all_verses)
+    return outfile.name, len(all_data)
 
 
 def get_bible_text(verse, translation):
@@ -97,13 +112,9 @@ def get_bible_text(verse, translation):
     try:
         data = response.json()
     except:
+        # DO NOT CHANGE THIS! - THE API WILL BLOCK YOUR IP FOR TOO MANY REQUESTS
         print("SLEEP 20")
         time.sleep(20)
         return get_bible_text(verse, translation)
 
     return data['text']
-    # else:
-    #     time.sleep(10)
-    #     print("SLEEP 10")
-    #     return get_bible_text(verse, translation)
-    #     # return 'Error: Unable to fetch Bible text.'
