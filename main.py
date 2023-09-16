@@ -4,7 +4,7 @@ import extractor
 import merge_files
 
 FILE_NAME = "filename"
-tags = ['motivation', 'love']
+tags = ['motivation', 'love', 'joy', 'kindness', 'inspiration', 'faith', 'goodness', 'patience', 'peace']
 
 # Limit the length of every scraped verse (verses with more chars than CHARS_LIMIT will not be scraped)
 # Set to -1 to disable limit
@@ -12,11 +12,11 @@ CHARS_LIMIT = 175
 
 # Limit the number of verses scraped per topic
 # Set to -1 to disable limit
-MAX_VERSES_PER_TOPIC = 2
+MAX_VERSES_PER_TOPIC = 1
 
 # ESV is the default scraped from openbible.info
 # If you want another translation, please head over to bible-api.com and set this to be the "Identifier" from the website
-TRANSLATION = "KJV"
+TRANSLATION = "ESV"
 
 # If you have more than 1 tag, setting this to:
 # True:  will generate a file for each tag and a merged file with all the tags
