@@ -21,7 +21,7 @@ TRANSLATION = "ESV"
 # If you have more than 1 tag, setting this to:
 # True:  will generate a file for each tag and a merged file with all the tags
 # False: will only generate a merged file with all the tags
-KEEP_INDIVIDUAL_FILES = "False"
+KEEP_INDIVIDUAL_FILES = False
 
 
 if __name__ == "__main__":
@@ -44,14 +44,14 @@ if __name__ == "__main__":
         merged_file = output[0]
         count_verses = output[1]
         # Delete temp files
-        if KEEP_INDIVIDUAL_FILES == 'False':
+        if !KEEP_INDIVIDUAL_FILES:
             for file in json_files:
                 os.remove(file)
 
     # If the translation is not ESV - Go through scraped verses and use bible-api.com to translate
     if (TRANSLATION != "ESV"):
         print(f"\nTranslating to {TRANSLATION}... (This may take a few minutes, depending on the amount of verses you scraped)")
-        if KEEP_INDIVIDUAL_FILES == 'True':
+        if KEEP_INDIVIDUAL_FILES:
             new_count_verses = 0;
             new_json_files = list()
             for file in json_files:
